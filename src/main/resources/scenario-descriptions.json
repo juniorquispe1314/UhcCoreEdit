@@ -399,5 +399,11 @@
 		"description": [
 			"Items do not burn."
 		]
+	},
+	"blood_hunter": {
+		"name": "Blood Hunter",
+		"description": [
+			"Killing a player will give an extra heart."
+		]
 	}
 }
