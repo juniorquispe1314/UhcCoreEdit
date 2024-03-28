@@ -12,6 +12,6 @@ public class ArenaPvPefListener extends ScenarioListener {
 
 	@Override
 	public void onDisable() {
-		getGameManager().broadcastMessage(ChatColor.RED + "OnEnableeeeee");
+		getGameManager().broadcastMessage(ChatColor.RED + "OnDisableeee");
 	}
 }
