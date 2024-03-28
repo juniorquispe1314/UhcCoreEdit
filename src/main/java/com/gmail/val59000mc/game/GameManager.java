@@ -33,6 +33,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -361,6 +362,7 @@ public class GameManager{
 		registerCommand("teamsize", new TeamSizeCommandExecutor(this, teamManager));
 		registerCommand("supergive", new SuperGiveCommandExecutor(playerManager));
 		registerCommand("forceteam", new ForceTeamCommandExecutor(this));
+		registerCommand("randomteam", new RandomTeamCommandExecutor(this));
 
 	}
 
