@@ -96,3 +96,7 @@ commands:
     description: "Forces a team"
     usage: "/forceteam playerNoTeammed playerWithTeam"
     permission: "kiwi-uhc.commands.forceteam"
+  randomteam:
+      description: "Randomizes the teams with an indicated teamsize"
+      usage: "/randomteam <teamsize>"
+      permission: "uhc-core.commands.randomteam"

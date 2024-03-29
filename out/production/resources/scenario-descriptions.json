@@ -400,10 +400,10 @@
 			"Items do not burn."
 		]
 	},
-	"arena_pvpef": {
-		"name": "Arena PvPef",
+	"blood_hunter": {
+		"name": "Blood Hunter",
 		"description": [
-			"Arena."
+			"Killing a player will give an extra heart."
 		]
 	}
 }

@@ -25,7 +25,7 @@ public class ForceTeamCommandExecutor implements CommandExecutor {
 
 
 		if(args.length != 2 || (args[0].equals(args[1]))){
-			sender.sendMessage(ChatColor.RED + "Usage: /forceteam playerNoTeammed playerWithTeam");
+			sender.sendMessage(ChatColor.AQUA + "Usage: /forceteam playerNoTeammed playerWithTeam");
 			return true;
 		}
 
@@ -38,8 +38,8 @@ public class ForceTeamCommandExecutor implements CommandExecutor {
 			playerNew.setTeam(playerLeader.getTeam());
 			gameManager.getScoreboardManager().updatePlayerOnTab(playerNew);
 			getGameManager().broadcastMessage(senderName+ ChatColor.AQUA + playerNew.getName().toString() + " has been assigned to " + playerLeader.getName().toString() + "'s team.");
-		} catch (UhcPlayerDoesNotExistException var9) {
-			var9.printStackTrace();
+		} catch (UhcPlayerDoesNotExistException ex) {
+			ex.printStackTrace();
 		}
 
 		return true;

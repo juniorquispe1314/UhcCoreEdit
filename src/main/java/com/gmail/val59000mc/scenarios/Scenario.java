@@ -80,6 +80,7 @@ public class Scenario {
 	public static final Scenario GOLDEL_RETRIEVER = new Scenario("golden_retriever", Material.GOLDEN_APPLE, GoldenRetrieverListener.class);
 	public static final Scenario HEAVY_POCKETS = new Scenario("heavy_pockets", UniversalMaterial.NETHERITE_SCRAP, HeavyPocketsListener.class);
 	public static final Scenario ANTI_BURN = new Scenario("anti_burn", Material.FLINT_AND_STEEL, AntiBurnListener.class);
+	public static final Scenario BLOOD_HUNTER = new Scenario("blood_hunter", UniversalMaterial.RED_DYE, BloodHunterListener.class);
 	public static final Scenario[] BUILD_IN_SCENARIOS = new Scenario[]{
 			CUTCLEAN,
 			FIRELESS,
@@ -145,6 +146,7 @@ public class Scenario {
 			GOLDEL_RETRIEVER,
 			HEAVY_POCKETS,
 			ANTI_BURN,
+			BLOOD_HUNTER
 	};
 
 	private final String key;

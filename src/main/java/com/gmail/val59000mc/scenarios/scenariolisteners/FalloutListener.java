@@ -66,6 +66,7 @@ public class FalloutListener extends ScenarioListener {
 
 		@Override
 		public void run() {
+
 			// damage players
 			for (UhcPlayer uhcPlayer : GameManager.getGameManager().getPlayerManager().getOnlinePlayingPlayers()){
 				if (uhcPlayer.getState() == PlayerState.PLAYING) {
