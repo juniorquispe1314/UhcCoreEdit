@@ -32,7 +32,6 @@ public class SkyHighListener extends ScenarioListener{
 
 	@EventHandler
 	public void onGameStarted(UhcStartedEvent e){
-		getGameManager().broadcastMessage(ChatColor.RED + "onGameStarted");
 		taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new SkyHighTask(this), delay*TimeUtils.SECOND_TICKS);
 	}
 
@@ -42,10 +41,8 @@ public class SkyHighListener extends ScenarioListener{
 		if (getGameManager().getGameState() == GameState.PLAYING ||
 			getGameManager().getGameState() == GameState.DEATHMATCH){
 			long timeUntilFirstRun = delay - GameManager.getGameManager().getElapsedTime();
-			getGameManager().broadcastMessage("ON ENABLE TRUE " + timeUntilFirstRun);
 			if (timeUntilFirstRun < 0){
 				timeUntilFirstRun = 0;
-				getGameManager().broadcastMessage("timeunilFirtsRun menor que 0");
 			}
 			taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new SkyHighTask(this), timeUntilFirstRun*TimeUtils.SECOND_TICKS);
 		}
@@ -55,7 +52,6 @@ public class SkyHighListener extends ScenarioListener{
 	public void onDisable() {
 		// stop task
 		if (taskId != -1) {
-			getGameManager().broadcastMessage("ON DISABLE LOLLLL");
 			Bukkit.getScheduler().cancelTask(taskId);
 		}
 	}
@@ -72,7 +68,6 @@ public class SkyHighListener extends ScenarioListener{
 		public void run() {
 			// damage players
 			for (UhcPlayer uhcPlayer : GameManager.getGameManager().getPlayerManager().getOnlinePlayingPlayers()){
-				uhcPlayer.sendMessage(ChatColor.GREEN + "SE SUPONE Q FOR");
 				if (uhcPlayer.getState() == PlayerState.PLAYING) {
 					try {
 						Player player = uhcPlayer.getPlayer();
