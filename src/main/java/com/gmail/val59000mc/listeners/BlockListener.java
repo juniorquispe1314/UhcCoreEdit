@@ -10,10 +10,7 @@ import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.utils.RandomUtils;
 import com.gmail.val59000mc.utils.UniversalMaterial;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -94,7 +91,20 @@ public class BlockListener implements Listener{
 
 		if (e.getPlayer().getItemInHand().getType() == Material.SHEARS){
 			Bukkit.getPluginManager().callEvent(new LeavesDecayEvent(e.getBlock()));
+			return;
 		}
+
+		Material itemHand = e.getPlayer().getItemInHand().getType();
+		boolean isHoe = itemHand == Material.DIAMOND_HOE  || itemHand == Material.IRON_HOE ||
+						itemHand == Material.WOODEN_HOE || itemHand == Material.STONE_HOE ||
+						itemHand == Material.GOLDEN_HOE || itemHand == UniversalMaterial.NETHERITE_HOE.getType();
+
+
+		if (isHoe){
+			Bukkit.getPluginManager().callEvent(new LeavesDecayEvent(e.getBlock()));
+		}
+
+
 	}
 
 	private void handleFrozenPlayers(BlockBreakEvent e){
