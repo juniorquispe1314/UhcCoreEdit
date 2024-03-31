@@ -1,7 +1,8 @@
 package com.gmail.val59000mc.commands;
 
 import com.gmail.val59000mc.exceptions.UhcTeamException;
-import com.gmail.val59000mc.game.GameManager;
+import com.gmail.val59000mc.game.GameState;
+import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.players.UhcTeam;
 import org.bukkit.ChatColor;
@@ -18,10 +19,10 @@ import static com.gmail.val59000mc.game.GameManager.getGameManager;
 
 public class RandomTeamCommandExecutor implements CommandExecutor {
 
-	private final GameManager gameManager;
+	private final PlayerManager playerManager;
 
-	public RandomTeamCommandExecutor(GameManager gameManager) {
-		this.gameManager = gameManager;
+	public RandomTeamCommandExecutor(PlayerManager playerManager) {
+		this.playerManager = playerManager;
 	}
 
 	@Override
@@ -34,11 +35,16 @@ public class RandomTeamCommandExecutor implements CommandExecutor {
 
 		Player player = (Player) sender;
 
+		if(getGameManager().getGameState() != GameState.WAITING){
+			sender.sendMessage(ChatColor.RED + "[ERROR] It is only possible to randomize teams in WAITING state");
+			return true;
+		}
+
 		//check the number is a correct number
 		if(args.length == 1){
 			try{
 				int randomTeamSize = Integer.parseInt(args[0]);
-				int totalPlayers = gameManager.getPlayerManager().getPlayersList().size();
+				int totalPlayers = playerManager.getPlayersList().size();
 
 				if(randomTeamSize <= 0){
 					sender.sendMessage(ChatColor.RED + "[ERROR] Only positive numbers are allowed");
@@ -50,10 +56,12 @@ public class RandomTeamCommandExecutor implements CommandExecutor {
 					return true;
 				}
 
+
 				//random teams logic
-				List<UhcPlayer> playersList = new ArrayList<>(gameManager.getPlayerManager().getPlayersList());
+				List<UhcPlayer> playersList = new ArrayList<>(playerManager.getPlayersList());
+
 				removeAllTeams(playersList);
-				randomizeTeams(playersList, randomTeamSize, player);
+				randomizeTeams(playersList, randomTeamSize);
 
 				String commandName = ChatColor.AQUA + "[Random Teams]";
 				getGameManager().broadcastMessage(commandName +ChatColor.DARK_AQUA + " ALL TEAMS WERE RANDOMIZED");
@@ -69,7 +77,8 @@ public class RandomTeamCommandExecutor implements CommandExecutor {
 		return true;
 	}
 
-	private void randomizeTeams(List<UhcPlayer> list, int teamSize, Player s){
+
+	private void randomizeTeams(List<UhcPlayer> list, int teamSize){
 		Collections.shuffle(list);
 		UhcPlayer leader = null;
 
@@ -90,8 +99,8 @@ public class RandomTeamCommandExecutor implements CommandExecutor {
 					leader.getTeam().getMembers().add(member);
 					member.setTeam(leader.getTeam());
 
-					gameManager.getScoreboardManager().updatePlayerOnTab(member);
-					gameManager.getScoreboardManager().updateTeamOnTab(member.getTeam());
+					getGameManager().getScoreboardManager().updatePlayerOnTab(member);
+					getGameManager().getScoreboardManager().updateTeamOnTab(member.getTeam());
 
 				}
 			}
@@ -100,19 +109,25 @@ public class RandomTeamCommandExecutor implements CommandExecutor {
 	}
 
 	private void removeAllTeams(List<UhcPlayer> list){
+
 		for(UhcPlayer p : list){
+
 			if(p.getTeam().getMembers().size() > 1){
 				UhcTeam oldTeam = p.getTeam();
 				try {
+
 					oldTeam.leave(p);
+
 				} catch (UhcTeamException e) {
+					list.remove(p);
 					throw new RuntimeException("**ERROR WHEN LEAVING FROM THE TEAM: " + p.getDisplayName() + "** - " +e);
 				}
 
-				gameManager.getScoreboardManager().updatePlayerOnTab(p);
-				gameManager.getScoreboardManager().updateTeamOnTab(oldTeam);
-
+				getGameManager().getScoreboardManager().updatePlayerOnTab(p);
+				getGameManager().getScoreboardManager().updateTeamOnTab(oldTeam);
 			}
+
 		}
+
 	}
 }

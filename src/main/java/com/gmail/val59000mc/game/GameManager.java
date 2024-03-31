@@ -362,7 +362,7 @@ public class GameManager{
 		registerCommand("teamsize", new TeamSizeCommandExecutor(this, teamManager));
 		registerCommand("supergive", new SuperGiveCommandExecutor(playerManager));
 		registerCommand("forceteam", new ForceTeamCommandExecutor(this));
-		registerCommand("randomteam", new RandomTeamCommandExecutor(this));
+		registerCommand("randomteam", new RandomTeamCommandExecutor(playerManager));
 
 	}
 
