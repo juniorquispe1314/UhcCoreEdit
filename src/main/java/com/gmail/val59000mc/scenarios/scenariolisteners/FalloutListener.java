@@ -41,10 +41,18 @@ public class FalloutListener extends ScenarioListener {
 		if (getGameManager().getGameState() == GameState.PLAYING ||
 			getGameManager().getGameState() == GameState.DEATHMATCH){
 			long timeUntilFirstRun = delay - GameManager.getGameManager().getElapsedTime();
+
 			if (timeUntilFirstRun < 0){
 				timeUntilFirstRun = 0;
 			}
-			taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new FalloutThread(this), timeUntilFirstRun*TimeUtils.SECOND_TICKS);
+
+			if(getGameManager().getGameState() == GameState.DEATHMATCH){
+				taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new FalloutThread(this), 0);
+			}else{
+				taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new FalloutThread(this), timeUntilFirstRun*TimeUtils.SECOND_TICKS);
+			}
+
+
 		}
 	}
 
