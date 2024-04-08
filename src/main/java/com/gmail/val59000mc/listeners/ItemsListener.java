@@ -99,10 +99,17 @@ public class ItemsListener implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onClickInInventory(InventoryClickEvent event){
+
+
+		Player player = (Player) event.getWhoClicked();
+
+		if(player.getWorld().getName().equals("arena")){
+			return;
+		}
+
 		handleScenarioInventory(event);
 
 		ItemStack item = event.getCurrentItem();
-		Player player = (Player) event.getWhoClicked();
 		UhcPlayer uhcPlayer = playerManager.getUhcPlayer(player);
 
 		// Stop players from moving game items in their inventory.

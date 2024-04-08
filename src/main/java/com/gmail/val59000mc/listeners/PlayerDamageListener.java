@@ -42,6 +42,12 @@ public class PlayerDamageListener implements Listener{
 	///////////////////////
 
 	private void handleAnyDamage(EntityDamageEvent event){
+
+		if (event.getEntity().getWorld().getName().equals("arena")){
+			return;
+		}
+
+
 		if(event.getEntity() instanceof Player){
 			Player player = (Player) event.getEntity();
 			PlayerManager pm = gameManager.getPlayerManager();

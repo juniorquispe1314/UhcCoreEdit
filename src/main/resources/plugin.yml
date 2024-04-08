@@ -100,3 +100,6 @@ commands:
       description: "Randomizes the teams with an indicated teamsize"
       usage: "/randomteam <teamsize>"
       permission: "uhc-core.commands.randomteam"
+  arena:
+    description: "Pre game pvp activity, arena pvp"
+    usage: "/arena"

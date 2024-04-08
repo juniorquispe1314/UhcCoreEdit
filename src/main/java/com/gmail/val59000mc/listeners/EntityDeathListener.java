@@ -17,7 +17,6 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 public class EntityDeathListener implements Listener {
@@ -94,6 +93,19 @@ public class EntityDeathListener implements Listener {
 	}
 
 	private void handleOfflineZombieDeath(EntityDeathEvent event){
+
+		/*if(event.getEntity() instanceof Player &&  event.getEntity().getWorld().getName().equals("arena")){
+			Player player = (Player) event.getEntity();
+			World world = Bukkit.getWorld("arena");
+			ItemStack gaps = new ItemStack(Material.GOLDEN_APPLE, 2);
+			event.getDrops().removeAll(event.getDrops());
+			Objects.requireNonNull(player.getLocation().getWorld()).dropItemNaturally(player.getLocation(),gaps);
+			player.setHealth(20);
+			ArenaKit.giveKit(player);
+			player.teleport(Objects.requireNonNull(world).getSpawnLocation());
+			return;
+		}*/
+
 		if (event.getEntityType() != EntityType.ZOMBIE){
 			return;
 		}

@@ -65,6 +65,7 @@ public class GameManager{
 	private int episodeNumber;
 	private long remainingTime;
 	private long elapsedTime;
+	private boolean arena;
 
 	static{
 		gameManager = null;
@@ -87,6 +88,7 @@ public class GameManager{
 
 		episodeNumber = 0;
 		elapsedTime = 0;
+		arena = true;
 	}
 
 	public static GameManager getGameManager(){
@@ -363,6 +365,7 @@ public class GameManager{
 		registerCommand("supergive", new SuperGiveCommandExecutor(playerManager));
 		registerCommand("forceteam", new ForceTeamCommandExecutor(this));
 		registerCommand("randomteam", new RandomTeamCommandExecutor(playerManager));
+		registerCommand("arena", new ArenaCommandExecutor(this));
 
 	}
 
@@ -400,6 +403,14 @@ public class GameManager{
 			gameIsEnding = false;
 			EndThread.stop();
 		}
+	}
+
+	public boolean getArena() {
+		return arena;
+	}
+
+	public void setArena(boolean state) {
+		arena = state;
 	}
 
 }

@@ -6,6 +6,7 @@ import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.players.UhcTeam;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -65,6 +66,7 @@ public class RandomTeamCommandExecutor implements CommandExecutor {
 
 				String commandName = ChatColor.AQUA + "[Random Teams]";
 				getGameManager().broadcastMessage(commandName +ChatColor.DARK_AQUA + " ALL TEAMS WERE RANDOMIZED");
+				getGameManager().getPlayerManager().playSoundToAll(Sound.BLOCK_ANVIL_USE, 1,1);
 
 			}catch (NumberFormatException noNumber){
 				sender.sendMessage(ChatColor.RED + "[ERROR] The correct use of the command is /randomteam <number>");
@@ -83,7 +85,6 @@ public class RandomTeamCommandExecutor implements CommandExecutor {
 		UhcPlayer leader = null;
 
 		for(int i = 0 ; i < list.size() ; i += teamSize){
-
 			int end = Math.min(i + teamSize, list.size());
 			ArrayList<UhcPlayer> newTeam = new ArrayList<UhcPlayer>(list.subList(i, end));
 
