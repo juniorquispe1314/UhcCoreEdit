@@ -5,11 +5,13 @@ import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.scenarios.Scenario;
+import com.gmail.val59000mc.utils.ArenaWorld;
 import com.gmail.val59000mc.utils.LocationUtils;
 import com.gmail.val59000mc.utils.VersionUtils;
 
 import java.util.logging.Logger;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -30,6 +32,14 @@ public class TeleportListener implements Listener{
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerPortalEvent (PlayerPortalEvent event){
+
+		//disable nether/end in Arena pvp
+		if (event.getPlayer().getWorld().getName().equals(ArenaWorld.NAME_WORLD_ARENA)){
+			event.getPlayer().sendMessage(ChatColor.RED + "You can not enter the nether!");
+			event.setCancelled(true);
+			return;
+		}
+
 		GameManager gm = GameManager.getGameManager();
 		Player player = event.getPlayer();
 

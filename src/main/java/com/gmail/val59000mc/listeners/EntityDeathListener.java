@@ -6,9 +6,11 @@ import com.gmail.val59000mc.customitems.UhcItems;
 import com.gmail.val59000mc.game.handlers.PlayerDeathHandler;
 import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.UhcPlayer;
+import com.gmail.val59000mc.utils.ArenaWorld;
 import com.gmail.val59000mc.utils.RandomUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -37,6 +39,11 @@ public class EntityDeathListener implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onEntityDeath(EntityDeathEvent event) {
+
+		if(event.getEntity().getWorld().getName().equals(ArenaWorld.NAME_WORLD_ARENA)){
+			return;
+		}
+
 		handleMobLoot(event);
 		handleGoldDrop(event);
 		handleGhastTearDrop(event);
@@ -93,18 +100,6 @@ public class EntityDeathListener implements Listener {
 	}
 
 	private void handleOfflineZombieDeath(EntityDeathEvent event){
-
-		/*if(event.getEntity() instanceof Player &&  event.getEntity().getWorld().getName().equals("arena")){
-			Player player = (Player) event.getEntity();
-			World world = Bukkit.getWorld("arena");
-			ItemStack gaps = new ItemStack(Material.GOLDEN_APPLE, 2);
-			event.getDrops().removeAll(event.getDrops());
-			Objects.requireNonNull(player.getLocation().getWorld()).dropItemNaturally(player.getLocation(),gaps);
-			player.setHealth(20);
-			ArenaKit.giveKit(player);
-			player.teleport(Objects.requireNonNull(world).getSpawnLocation());
-			return;
-		}*/
 
 		if (event.getEntityType() != EntityType.ZOMBIE){
 			return;

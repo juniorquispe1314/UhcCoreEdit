@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
 import com.gmail.val59000mc.scenarios.ScenarioListener;
+import com.gmail.val59000mc.utils.ArenaWorld;
 import com.gmail.val59000mc.utils.UniversalMaterial;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -36,6 +37,11 @@ public class BareBonesListener extends ScenarioListener {
 		priority = EventPriority.LOW
 	)
 	public void onBlockBreak(BlockBreakEvent e) {
+
+		if(e.getPlayer().getWorld().getName().equals(ArenaWorld.NAME_WORLD_ARENA)){
+			return;
+		}
+
 		if (e.getBlock().getType() == Material.DIAMOND_ORE) {
 			e.getBlock().setType(Material.AIR);
 		}

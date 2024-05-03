@@ -9,6 +9,9 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.bukkit.enchantments.Enchantment.*;
 // La papu clase, add new scen Cobwebless
 // Avoid fire and flame
@@ -40,11 +43,13 @@ public class ColdWeaponsListener extends ScenarioListener {
 		boolean flameOn = e.getResult().containsEnchantment(ARROW_FIRE);
 
 		if(fireOn){
-			e.setResult(null);
+			//e.setResult(null);
+			e.getResult().removeEnchantment(FIRE_ASPECT);
 		}
 
 		if(flameOn){
-			e.setResult(null);
+			//e.setResult(null);
+			e.getResult().removeEnchantment(ARROW_FIRE);
 		}
 
 	}
@@ -81,25 +86,6 @@ public class ColdWeaponsListener extends ScenarioListener {
 
 
 		}
-
-		/*
-		//ESTE METODO RECORRE EL INVENTARIO ENTERO, por cada flecha
-		if(e.getDamager() instanceof Projectile){
-			Projectile arrow = (Projectile) e.getDamager();
-
-			if(arrow.getShooter() instanceof Player){
-
-				Player shooter = (Player) arrow.getShooter();
-				PlayerInventory inv = shooter.getInventory();
-
-				for(ItemStack bow : inv){
-					if(bow != null && bow.containsEnchantment(ARROW_FIRE)){
-						bow.removeEnchantment(ARROW_FIRE);
-					}
-				}
-
-			}
-		}*/
 	}
 
 

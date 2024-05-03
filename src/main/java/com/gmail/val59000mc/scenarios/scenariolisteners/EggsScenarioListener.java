@@ -1,7 +1,9 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
 import com.gmail.val59000mc.scenarios.ScenarioListener;
+import com.gmail.val59000mc.utils.ArenaWorld;
 import com.gmail.val59000mc.utils.RandomUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -48,6 +50,11 @@ public class EggsScenarioListener extends ScenarioListener{
 
 	@EventHandler
 	public void onProjectileHit(ProjectileHitEvent e){
+
+		if (e.getEntity().getWorld().getName().equals(ArenaWorld.NAME_WORLD_ARENA)){
+			return;
+		}
+
 		if (e.getEntityType() != EntityType.EGG){
 			return;
 		}
@@ -59,6 +66,11 @@ public class EggsScenarioListener extends ScenarioListener{
 
 	@EventHandler
 	public void onEntityDeath(EntityDeathEvent e){
+
+		if (e.getEntity().getWorld().getName().equals(ArenaWorld.NAME_WORLD_ARENA)){
+			return;
+		}
+
 		if (e.getEntityType() != EntityType.CHICKEN){
 			return;
 		}

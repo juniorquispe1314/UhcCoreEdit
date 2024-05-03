@@ -3,6 +3,7 @@ package com.gmail.val59000mc.scenarios.scenariolisteners;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
+import com.gmail.val59000mc.utils.ArenaWorld;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -19,6 +20,11 @@ public class ChildrenLeftUnattended extends ScenarioListener{
 
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent e){
+
+		if(e.getEntity().getName().equals(ArenaWorld.NAME_WORLD_ARENA)){
+			return;
+		}
+
 		Player player = e.getEntity();
 		UhcPlayer uhcPlayer = getPlayerManager().getUhcPlayer(player);
 

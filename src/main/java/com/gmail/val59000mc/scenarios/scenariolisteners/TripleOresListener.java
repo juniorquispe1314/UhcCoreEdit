@@ -18,6 +18,10 @@ public class TripleOresListener extends ScenarioListener {
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent e) {
 
+		if(e.isCancelled()){
+			return;
+		}
+
 		if (isEnabled(Scenario.VEIN_MINER)) {
 			return;
 		}

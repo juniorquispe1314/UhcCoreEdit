@@ -33,7 +33,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -65,7 +64,7 @@ public class GameManager{
 	private int episodeNumber;
 	private long remainingTime;
 	private long elapsedTime;
-	private boolean arena;
+	private boolean arenaStatus;
 
 	static{
 		gameManager = null;
@@ -88,7 +87,7 @@ public class GameManager{
 
 		episodeNumber = 0;
 		elapsedTime = 0;
-		arena = true;
+		arenaStatus = false;
 	}
 
 	public static GameManager getGameManager(){
@@ -405,12 +404,12 @@ public class GameManager{
 		}
 	}
 
-	public boolean getArena() {
-		return arena;
+	public boolean getArenaStatus() {
+		return arenaStatus;
 	}
 
-	public void setArena(boolean state) {
-		arena = state;
+	public void setArenaStatus(boolean state) {
+		arenaStatus = state;
 	}
 
 }

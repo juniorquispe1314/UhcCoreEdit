@@ -405,5 +405,11 @@
 		"description": [
 			"Killing a player will give an extra heart."
 		]
+	},
+	"enchanted_gap": {
+		"name": "Enchanted Gaps",
+		"description": [
+			"You can craft enchanted golden apples (4 Blocks of gold, 4 gold ingots and 1 apple)."
+		]
 	}
 }

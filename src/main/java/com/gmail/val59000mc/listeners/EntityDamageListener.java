@@ -5,6 +5,7 @@ import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.UhcPlayer;
+import com.gmail.val59000mc.utils.ArenaWorld;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Zombie;
@@ -45,9 +46,9 @@ public class EntityDamageListener implements Listener{
 
 		// Find zombie owner
 		Optional<UhcPlayer> owner = pm.getPlayersList()
-				.stream()
-				.filter(uhcPlayer -> uhcPlayer.getOfflineZombieUuid() != null && uhcPlayer.getOfflineZombieUuid().equals(zombie.getUniqueId()))
-				.findFirst();
+			.stream()
+			.filter(uhcPlayer -> uhcPlayer.getOfflineZombieUuid() != null && uhcPlayer.getOfflineZombieUuid().equals(zombie.getUniqueId()))
+			.findFirst();
 
 		// Not a offline player
 		if (!owner.isPresent()){

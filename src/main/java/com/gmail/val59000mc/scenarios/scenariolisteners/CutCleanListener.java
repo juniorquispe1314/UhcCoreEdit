@@ -6,6 +6,7 @@ import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import com.gmail.val59000mc.utils.OreType;
 import com.gmail.val59000mc.utils.UniversalMaterial;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -75,6 +76,10 @@ public class CutCleanListener extends ScenarioListener{
 
 	@EventHandler (priority = EventPriority.HIGH)
 	public void onBlockBreak(BlockBreakEvent e){
+
+		if(e.isCancelled()){
+			return;
+		}
 
 		if (isEnabled(Scenario.TRIPLE_ORES) || (isEnabled(Scenario.VEIN_MINER) && e.getPlayer().isSneaking())){
 			return;

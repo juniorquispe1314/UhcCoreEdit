@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.gmail.val59000mc.utils.ArenaWorld;
 import com.gmail.val59000mc.utils.VersionUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -32,6 +33,11 @@ public class RandomizedDropsListener extends ScenarioListener{
 
 	@EventHandler(ignoreCancelled = true)
 	public void onBlockBreak(BlockBreakEvent event) {
+
+		if(event.getPlayer().getWorld().getName().equals(ArenaWorld.NAME_WORLD_ARENA)){
+			return;
+		}
+
 		//Create new HashMap so each each type of broken block drops the same random item every time it is broken (configurable
 		Block block = event.getBlock();
 

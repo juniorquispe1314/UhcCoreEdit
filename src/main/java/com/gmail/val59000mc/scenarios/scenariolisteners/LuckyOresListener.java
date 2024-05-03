@@ -22,6 +22,10 @@ public class LuckyOresListener extends ScenarioListener{
 	@EventHandler
 	public void onBreakOres(BlockBreakEvent e){
 
+		if(e.isCancelled()){
+			return;
+		}
+
 		Block brokenBlock = e.getBlock();
 		Material ore = brokenBlock.getType();
 		ItemStack pickAxe = e.getPlayer().getInventory().getItemInMainHand();

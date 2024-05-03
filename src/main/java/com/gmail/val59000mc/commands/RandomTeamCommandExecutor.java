@@ -3,6 +3,7 @@ package com.gmail.val59000mc.commands;
 import com.gmail.val59000mc.exceptions.UhcTeamException;
 import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.players.PlayerManager;
+import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.players.UhcTeam;
 import org.bukkit.ChatColor;
@@ -110,6 +111,9 @@ public class RandomTeamCommandExecutor implements CommandExecutor {
 	}
 
 	private void removeAllTeams(List<UhcPlayer> list){
+
+		//remove if player is spec
+		list.removeIf(p -> p.getState() == PlayerState.DEAD);
 
 		for(UhcPlayer p : list){
 

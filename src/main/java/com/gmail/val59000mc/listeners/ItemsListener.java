@@ -11,6 +11,7 @@ import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.*;
 import com.gmail.val59000mc.scenarios.Scenario;
 import com.gmail.val59000mc.scenarios.ScenarioManager;
+import com.gmail.val59000mc.utils.ArenaWorld;
 import com.gmail.val59000mc.utils.UniversalMaterial;
 import net.wesjd.anvilgui.AnvilGUI;
 
@@ -103,10 +104,6 @@ public class ItemsListener implements Listener {
 
 		Player player = (Player) event.getWhoClicked();
 
-		if(player.getWorld().getName().equals("arena")){
-			return;
-		}
-
 		handleScenarioInventory(event);
 
 		ItemStack item = event.getCurrentItem();
@@ -115,6 +112,10 @@ public class ItemsListener implements Listener {
 		// Stop players from moving game items in their inventory.
 		// Above item == null check as item is null on hotbar swap.
 		if (gameManager.getGameState() == GameState.WAITING && event.getAction() == InventoryAction.HOTBAR_SWAP){
+
+			if(player.getWorld().getName().equals(ArenaWorld.NAME_WORLD_ARENA)){
+				return;
+			}
 			event.setCancelled(true);
 		}
 
@@ -523,7 +524,7 @@ public class ItemsListener implements Listener {
 
 			// toggle scenario
 			scenarioManager.getScenarioByName(meta.getDisplayName())
-					.ifPresent(scenarioManager::toggleScenario);
+				.ifPresent(scenarioManager::toggleScenario);
 
 			// Open edit inventory
 			player.openInventory(scenarioManager.getScenarioEditInventory(uhcPlayer.getBrowsingPage()));

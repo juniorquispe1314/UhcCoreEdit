@@ -1,6 +1,7 @@
 package com.gmail.val59000mc.scenarios.scenariolisteners;
 
 import com.gmail.val59000mc.scenarios.ScenarioListener;
+import com.gmail.val59000mc.utils.ArenaWorld;
 import com.gmail.val59000mc.utils.VersionUtils;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
@@ -15,7 +16,7 @@ public class BloodHunterListener extends ScenarioListener {
 
 		Player killer = e.getEntity().getKiller();
 
-		if(killer == null){
+		if(killer == null || killer.getWorld().getName().equals(ArenaWorld.NAME_WORLD_ARENA)){
 			return;
 		}
 

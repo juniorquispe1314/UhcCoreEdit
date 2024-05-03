@@ -1,7 +1,6 @@
 package com.gmail.val59000mc.listeners;
 
 import com.gmail.val59000mc.UhcCore;
-import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.handlers.PlayerDeathHandler;
 import com.gmail.val59000mc.players.PlayerState;
@@ -34,22 +33,20 @@ public class PlayerDeathListener implements Listener {
 		if(event.getEntity().getWorld().getName().equals(ArenaWorld.NAME_WORLD_ARENA)){
 			Player player = event.getEntity();
 			event.getDrops().removeAll(event.getDrops());
-			Objects.requireNonNull(player.getLocation().getWorld()).dropItemNaturally(player.getLocation(),ArenaWorld.ITEM_DROPED_BY_DEATH);
 
-			//Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), () -> respawnPlayerOnArena(player), 3);
-			//player.loadData();
+			for(ItemStack item : ArenaWorld.ITEMS_DROPED_BY_DEATH){
+				Objects.requireNonNull(player.getLocation().getWorld()).dropItemNaturally(player.getLocation(),item);
+			}
+
+			//dont count kills
 			return;
-
 		}
 
 		playerDeathHandler.handlePlayerDeath(event);
 
-
 	}
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerRespawn(PlayerRespawnEvent event){
-
-		Bukkit.broadcastMessage(ChatColor.DARK_PURPLE + "PLAYER RESPAWN EVENTSSSSSSSSSSSS");
 
 		PlayerManager pm = GameManager.getGameManager().getPlayerManager();
 		UhcPlayer uhcPlayer = pm.getUhcPlayer(event.getPlayer());
