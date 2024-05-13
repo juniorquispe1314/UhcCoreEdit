@@ -6,10 +6,7 @@ import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.UhcPlayer;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.block.ShulkerBox;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -48,12 +45,6 @@ public class SuperGiveCommandExecutor implements CommandExecutor {
 
 		Player player = (Player) sender;
 		org.bukkit.inventory.ItemStack itemInHand = player.getInventory().getItemInMainHand();
-		String usage = ChatColor.AQUA + "Usage: /supergive <player>   or   /supergive @a";
-
-		if(args.length == 0){
-			player.sendMessage(usage);
-			return true;
-		}
 
 		if(playerManager.getPlayersList().isEmpty() || playerManager.getPlayersList() == null){
 			player.sendMessage(ChatColor.RED +"No players online to give items to.");
@@ -72,23 +63,22 @@ public class SuperGiveCommandExecutor implements CommandExecutor {
 		List<ItemStack> withEmptySlots = Arrays.asList(shulker.getInventory().getContents());
 		List<ItemStack> reformed = removeEmptySlots(withEmptySlots);
 
-		if(args.length != 1){
-			player.sendMessage(usage);
-			return true;
-		}
-
 		if(shulkerIsEmpty(reformed)){
 			player.sendMessage(ChatColor.RED +"[ERROR] The shulker is EMPTY.");
 			return true;
 		}
 
+		if(args.length == 0){
+			player.sendMessage("List size: "+ playerManager.getPlayersList().size());
+			runGiveKitToAllThread(reformed, player);
+			return true;
+		}
+
 		String whom = args[0];
 
-		if(whom.equals("@a")){
-			//if the command is correct and skulker is not empty give kit
-			//giveKitToAll(reformed, player);
-			runGiveKitToAllThread(reformed, player);
-		} else{
+		//give kit to a single player
+		if(args.length == 1){
+
 			UhcPlayer playerToGive= null;
 			try {
 				playerToGive = playerManager.getUhcPlayer(whom);
@@ -105,6 +95,8 @@ public class SuperGiveCommandExecutor implements CommandExecutor {
 				player.sendMessage(ChatColor.RED + "[ERROR] "+ whom + " is not online.");
 			}
 
+		}else{
+			player.sendMessage(ChatColor.AQUA + "Usage: /supergive <player>   or   /supergive ");
 		}
 
 		return true;
@@ -124,11 +116,21 @@ public class SuperGiveCommandExecutor implements CommandExecutor {
 
 	private void runGiveKitToAllThread(List<ItemStack> lr , Player s){
 		//this will execute every 6 ticks (0.3s)
+		List<UhcPlayer> list = playerManager.getPlayersList();
 		BukkitTask taks = new BukkitRunnable() {
 			@Override
 			public void run() {
 
-				giveKitToAllUsingThread(lr ,s);
+				String strPlayerName = list.get(playersProcessed).getDisplayName();
+
+				try {
+					givekitToPlayer(lr,list.get(playersProcessed).getPlayer());
+					getGameManager().broadcastMessage(ChatColor.GOLD + "[✦] "+strPlayerName+" has received the kit");
+				} catch (UhcPlayerNotOnlineException e) {
+					s.sendMessage(ChatColor.RED+"[SUPERGIVE] "+ strPlayerName+ChatColor.RED+" is not online.");
+				}
+
+				playersProcessed++;
 
 				if(playersProcessed == playerManager.getPlayersList().size()){
 					playersProcessed = 0;
@@ -138,35 +140,10 @@ public class SuperGiveCommandExecutor implements CommandExecutor {
 					s.playSound(s.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1,1);
 					cancel();
 				}
+
 			}
 
 		}.runTaskTimer(UhcCore.getPlugin(), 5, 6);
-	}
-
-
-	private void giveKitToAllUsingThread(List<ItemStack> listReformed , Player sender){
-		//give the kit every 5 players
-		List<UhcPlayer> list = playerManager.getPlayersList();
-		int x = 0;
-
-		while (playersProcessed < list.size()) {
-
-			try {
-				Player p = list.get(playersProcessed).getPlayer();
-				givekitToPlayer(listReformed, p);
-			} catch (UhcPlayerNotOnlineException e) {
-				sender.sendMessage(ChatColor.RED+"[SUPERGIVE] "+ list.get(playersProcessed).getDisplayName()+" is not online.");
-				playersProcessed++;
-				continue;
-			}
-
-			x++;
-			playersProcessed ++;
-			if(x == 5){
-				break;
-			}
-		}
-
 	}
 
 	private void givekitToPlayer(List<ItemStack> listReformed, Player playerToGive){

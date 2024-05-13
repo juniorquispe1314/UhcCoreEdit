@@ -123,9 +123,9 @@ public class PlayerDeathHandler {
 		uhcPlayer.getStoredItems().addAll(playerDrops);
 
 		// eliminations
-		if (shouldAnnounceEliminations()) {
+		/*if (shouldAnnounceEliminations()) {
 			gameManager.broadcastInfoMessage(Lang.PLAYERS_ELIMINATED.replace("%player%", uhcPlayer.getName()));
-		}
+		}*/
 
 		if(config.get(MainConfig.REGEN_HEAD_DROP_ON_PLAYER_DEATH)){
 			playerDrops.add(UhcItems.createRegenHead(uhcPlayer));

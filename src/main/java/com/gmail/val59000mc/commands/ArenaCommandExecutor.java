@@ -32,16 +32,16 @@ public class ArenaCommandExecutor implements CommandExecutor {
 		ChatColor red = ChatColor.RED;
 		ChatColor darkRed = ChatColor.DARK_RED;
 
-		Player uhcPlayer = (Player) sender;
+		Player senderPlayer = (Player) sender;
 		String errorCommandMSG = darkRed + "[Arena]" + red + " Incorrect command.";
 
 		if (!gameManager.getGameState().equals(GameState.WAITING)){
-			uhcPlayer.sendMessage(red +"You cannot join the Arena at this time.");
+			senderPlayer.sendMessage(red +"You cannot join the Arena at this time.");
 			return true;
 		}
 
 		if(args.length > 1){
-			uhcPlayer.sendMessage(errorCommandMSG);
+			senderPlayer.sendMessage(errorCommandMSG);
 			return true;
 		}
 
@@ -50,45 +50,68 @@ public class ArenaCommandExecutor implements CommandExecutor {
 		if(args.length == 0 || args[0].equalsIgnoreCase("join")){
 
 			if(!gameManager.getArenaStatus()){
-				uhcPlayer.sendMessage(red + "Arena is currently closed");
+				senderPlayer.sendMessage(red + "Arena is currently closed");
 				return true;
 			}
 
-			if(uhcPlayer.getWorld().getName().equalsIgnoreCase(ArenaWorld.NAME_WORLD_ARENA)){
-				uhcPlayer.sendMessage(red + "You are already in the arena");
+			if(senderPlayer.getWorld().getName().equalsIgnoreCase(ArenaWorld.NAME_WORLD_ARENA)){
+				senderPlayer.sendMessage(red + "You are already in the arena");
 			}else{
 				//player join arena
-				//UhcPlayer a = gameManager.getPlayerManager().getUhcPlayer(uhcPlayer);
-				ArenaWorld.joinArena(uhcPlayer);
-				ArenaWorld.giveKit(Objects.requireNonNull(uhcPlayer.getPlayer()));
+				ArenaWorld.joinArena(senderPlayer);
+				ArenaWorld.giveKit(Objects.requireNonNull(senderPlayer.getPlayer()));
 			}
 			return true;
 		}
 
-		if (args[0].equalsIgnoreCase("leave") && uhcPlayer.getWorld().getName().equalsIgnoreCase(ArenaWorld.NAME_WORLD_ARENA) ) {
-			uhcPlayer.getInventory().clear();
-			uhcPlayer.setHealth(20);
-			uhcPlayer.teleport(Objects.requireNonNull(Bukkit.getWorld(ArenaWorld.NAME_WORLD_LOBBY)).getSpawnLocation());
-			Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), () -> ArenaWorld.leaveArena(uhcPlayer), 1);
+		if (args[0].equalsIgnoreCase("leave") && senderPlayer.getWorld().getName().equalsIgnoreCase(ArenaWorld.NAME_WORLD_ARENA) ) {
+			senderPlayer.getInventory().clear();
+			senderPlayer.setHealth(20);
+			senderPlayer.teleport(Objects.requireNonNull(Bukkit.getWorld(ArenaWorld.NAME_WORLD_LOBBY)).getSpawnLocation());
+			Bukkit.getScheduler().runTaskLater(UhcCore.getPlugin(), () -> ArenaWorld.leaveArena(senderPlayer), 1);
 
 			return true;
 		}
 
-		if(uhcPlayer.isOp() && args[0].equalsIgnoreCase("close")){
+		if(senderPlayer.isOp() && args[0].equalsIgnoreCase("close")){
+
+			if(!gameManager.getArenaStatus()){
+				senderPlayer.sendMessage(red + "The arena is already closed");
+				return true;
+			}
+
+			//close arena
 			gameManager.setArenaStatus(false);
 			ArenaWorld.bringAllArenaPlayers();
 			gameManager.getPlayerManager().playSoundToAll(Sound.BLOCK_ANVIL_DESTROY, 1,1);
 			Bukkit.broadcastMessage(ChatColor.GOLD  + "[Arena]" + ChatColor.YELLOW + " CLOSED");
+
+			gameManager.setArenaIsCleaning(false);
+			gameManager.getArenaTimerThread().stop();
+
+
 			return true;
 		}
 
-		if(uhcPlayer.isOp() && args[0].equalsIgnoreCase("open")){
+		if(senderPlayer.isOp() && args[0].equalsIgnoreCase("open")){
+
+			if(gameManager.getArenaStatus()){
+				senderPlayer.sendMessage(red + "The arena is already open");
+				return true;
+			}
+
+			//open arena
 			gameManager.setArenaStatus(true);
 			gameManager.getPlayerManager().playSoundToAll(Sound.BLOCK_ANVIL_USE, 1,1);
 			Bukkit.broadcastMessage(ChatColor.GOLD  + "[Arena]" + ChatColor.YELLOW + " OPEN");
+
+			//start thread timer
+			gameManager.getArenaTimerThread().start();
+
 			return true;
+
 		}else{
-			uhcPlayer.sendMessage(errorCommandMSG);
+			senderPlayer.sendMessage(errorCommandMSG);
 			return true;
 		}
 

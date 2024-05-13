@@ -80,6 +80,10 @@ public class PreStartThread implements Runnable{
 				ArenaWorld.bringAllArenaPlayers();
 				gameManager.getPlayerManager().playSoundToAll(Sound.BLOCK_ANVIL_DESTROY, 1,1);
 				Bukkit.broadcastMessage(ChatColor.GOLD  + "[Arena]" + ChatColor.YELLOW + " CLOSED");
+
+				gameManager.setArenaIsCleaning(false);
+				gameManager.getArenaTimerThread().stop();
+
 			}
 
 			remainingTime--;

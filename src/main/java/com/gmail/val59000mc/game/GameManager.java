@@ -65,6 +65,9 @@ public class GameManager{
 	private long remainingTime;
 	private long elapsedTime;
 	private boolean arenaStatus;
+	private List<String> resetArenaCommands;
+	private boolean arenaIsCleaning;
+	private static ArenaTimerThread arenaTimerThread;
 
 	static{
 		gameManager = null;
@@ -88,6 +91,9 @@ public class GameManager{
 		episodeNumber = 0;
 		elapsedTime = 0;
 		arenaStatus = false;
+		resetArenaCommands = new ArrayList<String>();
+		arenaIsCleaning = false;
+		arenaTimerThread = new ArenaTimerThread();
 	}
 
 	public static GameManager getGameManager(){
@@ -184,6 +190,8 @@ public class GameManager{
 
 		registerListeners();
 		registerCommands();
+
+		resetArenaCommands = ArenaWorld.getResetCommands();
 
 		if(config.get(MainConfig.ENABLE_BUNGEE_SUPPORT)) {
 			UhcCore.getPlugin().getServer().getMessenger().registerOutgoingPluginChannel(UhcCore.getPlugin(), "BungeeCord");
@@ -412,4 +420,23 @@ public class GameManager{
 		arenaStatus = state;
 	}
 
+	public List<String> getResetArenaCommands() {
+		return resetArenaCommands;
+	}
+
+	public boolean isArenaCleaning() {
+		return arenaIsCleaning;
+	}
+
+	public void setArenaIsCleaning(boolean arenaIsCleaning) {
+		this.arenaIsCleaning = arenaIsCleaning;
+	}
+
+	public ArenaTimerThread getArenaTimerThread() {
+		return arenaTimerThread;
+	}
+
+	public void setArenaTimerThread(ArenaTimerThread arenaTimerThread) {
+		this.arenaTimerThread = arenaTimerThread;
+	}
 }
