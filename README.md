@@ -1,8 +1,13 @@
-## IMPORTANT !
-This repository contains a modified version of the [Uhccore](https://gitlab.com/uhccore/uhccore) public plugin. The original plugin **IS NOT AUTHORED BY ME** and is available in a public repository. I have added new scenarios and custom commands to improve gameplay and provide more options to users. These modifications include designing and implementing new scenarios, creating additional commands, and performing testing and debugging to ensure that all new features operate correctly.
+## IMPORTANT !!!!!
+This repository contains a modified version of the [Uhccore](https://gitlab.com/uhccore/uhccore) public plugin. The original plugin **IS NOT AUTHORED BY ME (Junior)** and is available in a public repository. I have added new scenarios and custom commands to improve gameplay and provide more options to users. These modifications include designing and implementing new scenarios, creating additional commands, and performing testing and debugging to ensure that all new features operate correctly.
 
-## --- These are some scenarios and commands added by me to this project --- 
- - **Scenarios**
+## --- These are some scenarios and commands added by me (Junior) to this project --- 
+ - **[Scenarios](https://github.com/juniorquispe1314/UhcCoreEdit/tree/master/src/main/java/com/gmail/val59000mc/scenarios/scenariolisteners)**
+   
+   - [NerfStrengthListener](https://github.com/juniorquispe1314/UhcCoreEdit/blob/master/src/main/java/com/gmail/val59000mc/scenarios/scenariolisteners/NerfStrengthListener.java)
+   - [UpgradesListener](https://github.com/juniorquispe1314/UhcCoreEdit/blob/master/src/main/java/com/gmail/val59000mc/scenarios/scenariolisteners/UpgradesListener.java)
+   - [WebCageListener](https://github.com/juniorquispe1314/UhcCoreEdit/blob/master/src/main/java/com/gmail/val59000mc/scenarios/scenariolisteners/WebCageListener.java)
+   - FalloutListener
    - AntiBurnListener
    - AnvilLessListener
    - BareBonesListener
@@ -15,6 +20,28 @@ This repository contains a modified version of the [Uhccore](https://gitlab.com/
    - EnchatedGoldenApple
    - ExplosiveArrowsListener
    - FastGetAwayListener
+   - GappleRouletteListener
+   - GoldenRetrieverListener
+   - HBPlusListener
+   - HeavyPocketsListener
+   - KillEffectListener
+   - LostSoulsListener
+   - LotteryListener
+   - LuckyOresListener
+    
+ - **[Commands](https://github.com/juniorquispe1314/UhcCoreEdit/tree/master/src/main/java/com/gmail/val59000mc/commands)**
+   - [RandomTeamCommandExecutor](https://github.com/juniorquispe1314/UhcCoreEdit/blob/master/src/main/java/com/gmail/val59000mc/commands/RandomTeamCommandExecutor.java)
+   - [SuperGiveCommandExecutor](https://github.com/juniorquispe1314/UhcCoreEdit/blob/master/src/main/java/com/gmail/val59000mc/commands/SuperGiveCommandExecutor.java)
+   - [TeamLocationCommandExecutor](https://github.com/juniorquispe1314/UhcCoreEdit/blob/master/src/main/java/com/gmail/val59000mc/commands/TeamLocationCommandExecutor.java)
+   - [TeamSizeCommandExecutor](https://github.com/juniorquispe1314/UhcCoreEdit/blob/master/src/main/java/com/gmail/val59000mc/commands/TeamSizeCommandExecutor.java)
+   - [ArenaCommandExecutor](https://github.com/juniorquispe1314/UhcCoreEdit/blob/master/src/main/java/com/gmail/val59000mc/commands/ArenaCommandExecutor.java)
+   - [ClearItemCommandExecutor](https://github.com/juniorquispe1314/UhcCoreEdit/blob/master/src/main/java/com/gmail/val59000mc/commands/ClearItemCommandExecutor.java)
+   - [ForceTeamCommandExecutor](https://github.com/juniorquispe1314/UhcCoreEdit/blob/master/src/main/java/com/gmail/val59000mc/commands/ForceTeamCommandExecutor.java)
+   - [KillTopCommandExecutor](https://github.com/juniorquispe1314/UhcCoreEdit/blob/master/src/main/java/com/gmail/val59000mc/commands/KillTopCommandExecutor.java)
+   - [PvPCommandExecutor](https://github.com/juniorquispe1314/UhcCoreEdit/blob/master/src/main/java/com/gmail/val59000mc/commands/PvPCommandExecutor.java)
+  
+   
+## Below is the readme of the original repository
 
 
 
