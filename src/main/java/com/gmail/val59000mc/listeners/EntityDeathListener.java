@@ -6,9 +6,11 @@ import com.gmail.val59000mc.customitems.UhcItems;
 import com.gmail.val59000mc.game.handlers.PlayerDeathHandler;
 import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.UhcPlayer;
+import com.gmail.val59000mc.utils.ArenaWorld;
 import com.gmail.val59000mc.utils.RandomUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -17,7 +19,6 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 public class EntityDeathListener implements Listener {
@@ -38,6 +39,11 @@ public class EntityDeathListener implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onEntityDeath(EntityDeathEvent event) {
+
+		if(event.getEntity().getWorld().getName().equals(ArenaWorld.NAME_WORLD_ARENA)){
+			return;
+		}
+
 		handleMobLoot(event);
 		handleGoldDrop(event);
 		handleGhastTearDrop(event);
@@ -94,6 +100,7 @@ public class EntityDeathListener implements Listener {
 	}
 
 	private void handleOfflineZombieDeath(EntityDeathEvent event){
+
 		if (event.getEntityType() != EntityType.ZOMBIE){
 			return;
 		}

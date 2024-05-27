@@ -57,6 +57,13 @@ repositories {
 	flatDir { // For BiomeMapping
 		dirs "$rootDir/libs"
 	}
+	maven {
+		name "WorldEdit"
+		url "https://maven.enginehub.org/repo/"
+		content {
+			includeGroup "com.sk89q.worldedit"
+		}
+	}
 }
 
 // Configuration for dependencies that need to be included in the shadow JAR for use at runtime.

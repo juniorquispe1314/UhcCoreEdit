@@ -9,6 +9,7 @@ import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.UhcPlayer;
 import com.gmail.val59000mc.scenarios.Option;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
+import com.gmail.val59000mc.utils.ArenaWorld;
 import com.gmail.val59000mc.utils.TimeUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -103,6 +104,11 @@ public class BestPvEListener extends ScenarioListener implements Runnable{
 
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent e){
+
+		if(e.getEntity().getWorld().getName().equals(ArenaWorld.NAME_WORLD_ARENA)){
+			return;
+		}
+
 		if (e.getEntity().getKiller() != null){
 			UhcPlayer uhcPlayer = GameManager.getGameManager().getPlayerManager().getUhcPlayer(e.getEntity().getKiller());
 

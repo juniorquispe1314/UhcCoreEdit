@@ -1,12 +1,12 @@
 package com.gmail.val59000mc.commands;
 
+import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.exceptions.UhcPlayerDoesNotExistException;
 import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
+import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.UhcPlayer;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.ShulkerBox;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,13 +14,19 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.gmail.val59000mc.game.GameManager.getGameManager;
+
 public class SuperGiveCommandExecutor implements CommandExecutor {
 
 	private final PlayerManager playerManager;
+	private int playersProcessed = 0;
 	public SuperGiveCommandExecutor(PlayerManager playerManager){
 		this.playerManager = playerManager;
 	}
@@ -32,14 +38,13 @@ public class SuperGiveCommandExecutor implements CommandExecutor {
 			return true;
 		}
 
-		Player player = (Player) sender;
-		org.bukkit.inventory.ItemStack itemInHand = player.getInventory().getItemInMainHand();
-		String usage = ChatColor.AQUA + "Usage: /supergive <player>   or   /supergive @a";
-
-		if(args.length == 0){
-			player.sendMessage(usage);
+		if(getGameManager().getGameState() != GameState.PLAYING){
+			sender.sendMessage(ChatColor.RED + "You can not use this command now.");
 			return true;
 		}
+
+		Player player = (Player) sender;
+		org.bukkit.inventory.ItemStack itemInHand = player.getInventory().getItemInMainHand();
 
 		if(playerManager.getPlayersList().isEmpty() || playerManager.getPlayersList() == null){
 			player.sendMessage(ChatColor.RED +"No players online to give items to.");
@@ -58,22 +63,21 @@ public class SuperGiveCommandExecutor implements CommandExecutor {
 		List<ItemStack> withEmptySlots = Arrays.asList(shulker.getInventory().getContents());
 		List<ItemStack> reformed = removeEmptySlots(withEmptySlots);
 
-		if(args.length != 1){
-			player.sendMessage(usage);
-			return true;
-		}
-
 		if(shulkerIsEmpty(reformed)){
 			player.sendMessage(ChatColor.RED +"[ERROR] The shulker is EMPTY.");
 			return true;
 		}
 
+		if(args.length == 0){
+			runGiveKitToAllThread(reformed, player);
+			return true;
+		}
+
 		String whom = args[0];
 
-		if(whom.equals("@a")){
-			//if the command is correct and skulker is not empty give kit
-			giveKitToAll(reformed, player);
-		} else{
+		//give kit to a single player
+		if(args.length == 1){
+
 			UhcPlayer playerToGive= null;
 			try {
 				playerToGive = playerManager.getUhcPlayer(whom);
@@ -84,11 +88,14 @@ public class SuperGiveCommandExecutor implements CommandExecutor {
 
 			//the player exist
 			try {
-				givekitToPlayer(reformed, playerToGive.getPlayer(), player);
+				givekitToPlayer(reformed, playerToGive.getPlayer());
+				player.sendMessage(ChatColor.GREEN + "[SUPERGIVE] "+playerToGive.getDisplayName()+" have received the kit successfully.");
 			} catch (UhcPlayerNotOnlineException e) {
 				player.sendMessage(ChatColor.RED + "[ERROR] "+ whom + " is not online.");
 			}
 
+		}else{
+			player.sendMessage(ChatColor.AQUA + "Usage: /supergive <player>   or   /supergive ");
 		}
 
 		return true;
@@ -106,7 +113,51 @@ public class SuperGiveCommandExecutor implements CommandExecutor {
 		return noEmptySlots;
 	}
 
-	private void giveKitToAll(List<ItemStack> listReformed , Player sender){
+	private void runGiveKitToAllThread(List<ItemStack> lr , Player s){
+		//this will execute every 6 ticks (0.3s)
+		List<UhcPlayer> list = playerManager.getPlayersList();
+		BukkitTask taks = new BukkitRunnable() {
+			@Override
+			public void run() {
+
+				String strPlayerName = list.get(playersProcessed).getDisplayName();
+
+				try {
+					givekitToPlayer(lr,list.get(playersProcessed).getPlayer());
+					getGameManager().broadcastMessage(ChatColor.GOLD + "[✦] "+strPlayerName+" has received the kit");
+				} catch (UhcPlayerNotOnlineException e) {
+					s.sendMessage(ChatColor.RED+"[SUPERGIVE] "+ strPlayerName+ChatColor.RED+" is not online.");
+				}
+
+				playersProcessed++;
+
+				if(playersProcessed == playerManager.getPlayersList().size()){
+					playersProcessed = 0;
+					s.sendMessage(ChatColor.BLUE + "------------------------------------------");
+					s.sendMessage(ChatColor.AQUA + "[SUPERGIVE] Everyone has received the kit correctly.");
+					s.sendMessage(ChatColor.BLUE + "------------------------------------------");
+					s.playSound(s.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1,1);
+					cancel();
+				}
+
+			}
+
+		}.runTaskTimer(UhcCore.getPlugin(), 5, 6);
+	}
+
+	private void givekitToPlayer(List<ItemStack> listReformed, Player playerToGive){
+
+		for (ItemStack item : listReformed){
+			if(invFull(playerToGive)){
+				Location loc = playerToGive.getLocation().add(0.5,0,0.5);
+				loc.getWorld().dropItem(loc, item);
+			}else{
+				playerToGive.getInventory().addItem(item);
+			}
+		}
+	}
+
+	private void giveKitToAll(List<ItemStack> listReformed , Player sender){ //deprecated
 
 		for(UhcPlayer p : playerManager.getPlayersList()){
 			for(ItemStack item : listReformed){
@@ -120,26 +171,12 @@ public class SuperGiveCommandExecutor implements CommandExecutor {
 
 				} catch (UhcPlayerNotOnlineException e) {
 					sender.sendMessage(ChatColor.RED +"[SUPERGIVE] "+p.getDisplayName()+ " is not online.");
+					playersProcessed++;
 				}
 			}
 			sender.sendMessage(ChatColor.GRAY + "[SuperGive] Everyone has received " + p.getDisplayName() + " correctly.");
 
 		}
-
-	}
-
-	private void givekitToPlayer(List<ItemStack> listReformed, Player playerToGive, Player senderMsg){
-
-		for (ItemStack item : listReformed){
-			if(invFull(playerToGive)){
-				Location loc = playerToGive.getLocation().add(0.5,0,0.5);
-				loc.getWorld().dropItem(loc, item);
-			}else{
-				playerToGive.getInventory().addItem(item);
-			}
-		}
-
-		senderMsg.sendMessage(ChatColor.GREEN + "[SUPERGIVE] "+playerToGive.getDisplayName()+" have received the kit successfully.");
 	}
 
 	private boolean isYellowShulker(ItemStack yellowShulker){

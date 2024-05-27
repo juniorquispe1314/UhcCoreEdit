@@ -2,23 +2,28 @@ package com.gmail.val59000mc.scenarios.scenariolisteners;
 
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import com.gmail.val59000mc.utils.ArenaWorld;
-import com.gmail.val59000mc.utils.UniversalMaterial;
+import com.gmail.val59000mc.utils.PotionEffectUtil;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.inventory.ItemStack;
 
-public class HeavyPocketsListener extends ScenarioListener {
+public class KillEffectListener extends ScenarioListener {
 
-	@EventHandler(
-		priority = EventPriority.LOW
-	)
+	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent e) {
 
 		if (e.getEntity().getWorld().getName().equals(ArenaWorld.NAME_WORLD_ARENA)){
 			return;
 		}
 
-		e.getDrops().add(new ItemStack(UniversalMaterial.NETHERITE_SCRAP.getType(), 2));
+		if (e.getEntity().getKiller() != null) {
+			Player killer = e.getEntity().getKiller();
+
+			PotionEffectUtil.addRandomUniquePotionEffect(killer);
+
+		}
+
 	}
+
+
 }

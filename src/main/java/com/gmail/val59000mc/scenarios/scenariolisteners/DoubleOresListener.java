@@ -18,7 +18,7 @@ public class DoubleOresListener extends ScenarioListener {
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent e) {
 
-		if (isEnabled(Scenario.VEIN_MINER)) {
+		if (isEnabled(Scenario.VEIN_MINER) || e.isCancelled()) {
 			return;
 		}
 

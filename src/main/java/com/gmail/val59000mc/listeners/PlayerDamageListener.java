@@ -6,6 +6,7 @@ import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.UhcPlayer;
+import com.gmail.val59000mc.utils.ArenaWorld;
 import org.bukkit.entity.LightningStrike;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -27,6 +28,11 @@ public class PlayerDamageListener implements Listener{
 
 	@EventHandler(priority=EventPriority.NORMAL)
 	public void onPlayerDamage(EntityDamageByEntityEvent event){
+
+		if (event.getEntity().getWorld().getName().equals(ArenaWorld.NAME_WORLD_ARENA)){
+			return;
+		}
+
 		handlePvpAndFriendlyFire(event);
 		handleLightningStrike(event);
 		handleProjectiles(event);
@@ -34,6 +40,11 @@ public class PlayerDamageListener implements Listener{
 
 	@EventHandler(priority=EventPriority.NORMAL)
 	public void onPlayerDamage(EntityDamageEvent event){
+
+		if (event.getEntity().getWorld().getName().equals(ArenaWorld.NAME_WORLD_ARENA)){
+			return;
+		}
+
 		handleAnyDamage(event);
 	}
 
@@ -42,6 +53,8 @@ public class PlayerDamageListener implements Listener{
 	///////////////////////
 
 	private void handleAnyDamage(EntityDamageEvent event){
+
+
 		if(event.getEntity() instanceof Player){
 			Player player = (Player) event.getEntity();
 			PlayerManager pm = gameManager.getPlayerManager();

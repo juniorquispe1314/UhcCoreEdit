@@ -6,6 +6,7 @@ import com.gmail.val59000mc.scenarios.ScenarioListener;
 import java.util.List;
 import java.util.ArrayList;
 
+import com.gmail.val59000mc.utils.ArenaWorld;
 import com.gmail.val59000mc.utils.LocationUtils;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -38,6 +39,11 @@ public class MonstersIncListener extends ScenarioListener {
 
 	@EventHandler (ignoreCancelled = true)
 	public void onBlockClick(PlayerInteractEvent e) {
+
+		if(e.getPlayer().getWorld().getName().equals(ArenaWorld.NAME_WORLD_ARENA)){
+			return;
+		}
+
 		Block block = e.getClickedBlock();
 		Player player = e.getPlayer();
 		Location goToLoc;

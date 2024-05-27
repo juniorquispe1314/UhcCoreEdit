@@ -78,6 +78,11 @@ public class FlowerPowerListener extends ScenarioListener{
 
 	@EventHandler (priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onBlockBreak(BlockBreakEvent e){
+
+		if (e.getPlayer().getWorld().getName().equals(ArenaWorld.NAME_WORLD_ARENA)){
+			return;
+		}
+
 		Block block = e.getBlock();
 
 		// For tall flowers start with the bottom block.

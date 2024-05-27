@@ -5,8 +5,11 @@ import com.gmail.val59000mc.configuration.MainConfig;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.UhcTeam;
+import com.gmail.val59000mc.utils.ArenaWorld;
 import com.gmail.val59000mc.utils.UniversalSound;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 
 import java.util.List;
 
@@ -59,7 +62,7 @@ public class PreStartThread implements Runnable{
 		int playersNumber = Bukkit.getOnlinePlayers().size();
 
 		if(
-				force ||
+			force ||
 				(!pause && (remainingTime < 5 || (playersNumber >= minPlayers && readyTeams >= gameManager.getConfig().get(MainConfig.MINIMAL_READY_TEAMS_TO_START) && percentageReadyTeams >= gameManager.getConfig().get(MainConfig.MINIMAL_READY_TEAMS_PERCENTAGE_TO_START))))
 		){
 			if(remainingTime == timeBeforeStart+1){
@@ -69,6 +72,18 @@ public class PreStartThread implements Runnable{
 			}else if((remainingTime > 0 && remainingTime <= 10) || (remainingTime > 0 && remainingTime%10 == 0)){
 				gameManager.broadcastInfoMessage(Lang.GAME_STARTING_IN.replace("%time%", String.valueOf(remainingTime)));
 				gameManager.getPlayerManager().playSoundToAll(UniversalSound.CLICK.getSound());
+			}
+
+			//if arena is open -> close arena
+			if(gameManager.getArenaStatus()){
+				gameManager.setArenaStatus(false);
+				ArenaWorld.bringAllArenaPlayers();
+				gameManager.getPlayerManager().playSoundToAll(Sound.BLOCK_ANVIL_DESTROY, 1,1);
+				Bukkit.broadcastMessage(ChatColor.GOLD  + "[Arena]" + ChatColor.YELLOW + " CLOSED");
+
+				gameManager.setArenaIsCleaning(false);
+				gameManager.getArenaTimerThread().stop();
+
 			}
 
 			remainingTime--;

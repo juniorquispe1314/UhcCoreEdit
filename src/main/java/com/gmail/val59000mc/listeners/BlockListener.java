@@ -8,6 +8,7 @@ import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.UhcPlayer;
+import com.gmail.val59000mc.utils.ArenaWorld;
 import com.gmail.val59000mc.utils.RandomUtils;
 import com.gmail.val59000mc.utils.UniversalMaterial;
 import org.bukkit.*;
@@ -38,6 +39,20 @@ public class BlockListener implements Listener{
 
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event){
+
+		if(event.getPlayer().getWorld().getName().equals(ArenaWorld.NAME_WORLD_ARENA)){
+
+			if(event.getPlayer().getGameMode() == GameMode.CREATIVE){
+				return;
+			}
+
+			if (!ArenaWorld.isBreakableBlock(event.getBlock().getType())) {
+				event.getPlayer().sendMessage(ChatColor.RED + "You can not break this block here!");
+				event.setCancelled(true);
+				return;
+			}
+		}
+
 		handleBlockLoot(event);
 		handleShearedLeaves(event);
 		handleFrozenPlayers(event);
@@ -96,8 +111,8 @@ public class BlockListener implements Listener{
 
 		Material itemHand = e.getPlayer().getItemInHand().getType();
 		boolean isHoe = itemHand == Material.DIAMOND_HOE  || itemHand == Material.IRON_HOE ||
-						itemHand == Material.WOODEN_HOE || itemHand == Material.STONE_HOE ||
-						itemHand == Material.GOLDEN_HOE || itemHand == UniversalMaterial.NETHERITE_HOE.getType();
+			itemHand == Material.WOODEN_HOE || itemHand == Material.STONE_HOE ||
+			itemHand == Material.GOLDEN_HOE || itemHand == UniversalMaterial.NETHERITE_HOE.getType();
 
 
 		if (isHoe){

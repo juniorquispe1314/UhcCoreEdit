@@ -16,6 +16,10 @@ public class DoubleGoldListener extends ScenarioListener{
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent e) {
 
+		if(e.isCancelled()){
+			return;
+		}
+
 		if (isEnabled(Scenario.CUTCLEAN) || isEnabled(Scenario.TRIPLE_ORES) || isEnabled(Scenario.VEIN_MINER)){
 			return;
 		}

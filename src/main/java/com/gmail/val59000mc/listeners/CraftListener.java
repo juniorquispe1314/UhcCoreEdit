@@ -6,6 +6,7 @@ import com.gmail.val59000mc.customitems.CraftsManager;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.UhcPlayer;
+import com.gmail.val59000mc.utils.ArenaWorld;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,6 +19,13 @@ public class CraftListener implements Listener{
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onCrafting(CraftItemEvent event){
+
+		if (event.getWhoClicked().getWorld().getName().equals(ArenaWorld.NAME_WORLD_ARENA)){
+			event.getWhoClicked().sendMessage(ChatColor.RED + "You can not craft here!");
+			event.setCancelled(true);
+			return;
+		}
+
 		ItemStack item = event.getRecipe().getResult();
 		if (!item.hasItemMeta() || !item.getItemMeta().hasDisplayName()){
 			return;
