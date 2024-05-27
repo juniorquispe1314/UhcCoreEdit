@@ -32,6 +32,7 @@ import org.bukkit.event.Listener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -373,6 +374,7 @@ public class GameManager{
 		registerCommand("forceteam", new ForceTeamCommandExecutor(this));
 		registerCommand("randomteam", new RandomTeamCommandExecutor(playerManager));
 		registerCommand("arena", new ArenaCommandExecutor(this));
+		registerCommand("pvp", new PvPCommandExecutor(this));
 
 	}
 
@@ -395,6 +397,9 @@ public class GameManager{
 			playerManager.playSoundToAll(UniversalSound.ENDERDRAGON_GROWL.getSound(), 1, 2);
 			playerManager.setAllPlayersEndGame();
 			Bukkit.getScheduler().scheduleSyncDelayedTask(UhcCore.getPlugin(), new StopRestartThread(),20);
+
+			//SHOW KT
+			sortPlayersByKills();
 		}
 	}
 
@@ -438,5 +443,29 @@ public class GameManager{
 
 	public void setArenaTimerThread(ArenaTimerThread arenaTimerThread) {
 		this.arenaTimerThread = arenaTimerThread;
+	}
+
+	public void sortPlayersByKills() {
+
+		ChatColor aqua = ChatColor.AQUA;
+		ChatColor red = ChatColor.RED;
+		ChatColor gray = ChatColor.GRAY;
+		ChatColor r = ChatColor.RESET;
+
+		List<UhcPlayer> list = new ArrayList<>(getGameManager().getPlayerManager().getPlayersList());
+		Collections.sort(list, new KillTopUtil());
+
+		getGameManager().broadcastMessage(aqua + "----- Top kills in the UHC -----");
+
+		int x = 1;
+		for (UhcPlayer p : list) {
+			getGameManager().broadcastMessage(gray +""+ x + ". " + r +p.getDisplayName() + red + " - " + p.getKills() + " kills");
+			x++;
+			if (x > 8) {
+				break;
+			}
+		}
+
+		getGameManager().broadcastMessage(aqua + "--------------------------------");
 	}
 }

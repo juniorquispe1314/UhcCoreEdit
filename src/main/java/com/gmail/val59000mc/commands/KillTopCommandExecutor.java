@@ -4,6 +4,7 @@ import com.gmail.val59000mc.game.GameState;
 import com.gmail.val59000mc.languages.Lang;
 import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.UhcPlayer;
+import com.gmail.val59000mc.utils.KillTopUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -66,14 +67,7 @@ public class KillTopCommandExecutor implements CommandExecutor {
 	}
 
 	public void sortPlayersByKills(List<UhcPlayer> listPlayers) {
-		Collections.sort(listPlayers, new KillsComparator());
-	}
-
-	class KillsComparator implements Comparator<UhcPlayer> {
-		@Override
-		public int compare(UhcPlayer a, UhcPlayer b) {
-			return Integer.compare(b.getKills(), a.getKills());
-		}
+		Collections.sort(listPlayers, new KillTopUtil());
 	}
 
 }

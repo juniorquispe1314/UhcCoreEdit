@@ -97,9 +97,13 @@ commands:
     usage: "/forceteam playerNoTeammed playerWithTeam"
     permission: "kiwi-uhc.commands.forceteam"
   randomteam:
-      description: "Randomizes the teams with an indicated teamsize"
-      usage: "/randomteam <teamsize>"
-      permission: "uhc-core.commands.randomteam"
+    description: "Randomizes the teams with an indicated teamsize"
+    usage: "/randomteam <teamsize>"
+    permission: "uhc-core.commands.randomteam"
   arena:
     description: "Pre game pvp activity, arena pvp"
     usage: "/arena"
+  pvp:
+    description: "Enable/disable pvp in game."
+    usage: "/pvp <on/off>"
+    permission: "uhc-core.commands.pvp"

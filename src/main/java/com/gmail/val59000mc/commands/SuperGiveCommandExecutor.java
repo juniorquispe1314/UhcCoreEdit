@@ -69,7 +69,6 @@ public class SuperGiveCommandExecutor implements CommandExecutor {
 		}
 
 		if(args.length == 0){
-			player.sendMessage("List size: "+ playerManager.getPlayersList().size());
 			runGiveKitToAllThread(reformed, player);
 			return true;
 		}

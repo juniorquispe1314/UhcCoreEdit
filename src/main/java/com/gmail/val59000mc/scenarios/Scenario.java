@@ -81,7 +81,13 @@ public class Scenario {
 	public static final Scenario HEAVY_POCKETS = new Scenario("heavy_pockets", UniversalMaterial.NETHERITE_SCRAP, HeavyPocketsListener.class);
 	public static final Scenario ANTI_BURN = new Scenario("anti_burn", Material.FLINT_AND_STEEL, AntiBurnListener.class);
 	public static final Scenario BLOOD_HUNTER = new Scenario("blood_hunter", UniversalMaterial.RED_DYE, BloodHunterListener.class);
-	public static final Scenario ENCHANTED_GOLDEN_APPLE = new Scenario("enchanted_gap", Material.ENCHANTED_GOLDEN_APPLE, EnchatedGoldenApple.class);
+	public static final Scenario ENCHANTED_GOLDEN_APPLE = new Scenario("enchanted_gap", Material.GOLD_BLOCK, EnchatedGoldenApple.class);
+	public static final Scenario KILL_EFFECT = new Scenario("kill_effect", Material.HONEY_BOTTLE,KillEffectListener.class);
+	public static final Scenario KILL_BONUS = new Scenario("blood_brothers", Material.LINGERING_POTION, BloodBrothersListener.class);
+	public static final Scenario LOTTERY = new Scenario("lottery", Material.EMERALD, LotteryListener.class);
+	public static final Scenario DEMOLITION_ARCHERY = new Scenario("demolition_archery",Material.CRACKED_STONE_BRICKS, DemolitionArcheryListener.class);
+	public static final Scenario EXPLOSIVE_ARROWS = new Scenario("explosive_arrows", Material.FIRE_CHARGE, ExplosiveArrowsListener.class);
+
 	public static final Scenario[] BUILD_IN_SCENARIOS = new Scenario[]{
 			CUTCLEAN,
 			FIRELESS,
@@ -148,7 +154,12 @@ public class Scenario {
 			HEAVY_POCKETS,
 			ANTI_BURN,
 			BLOOD_HUNTER,
-			ENCHANTED_GOLDEN_APPLE
+			ENCHANTED_GOLDEN_APPLE,
+			KILL_EFFECT,
+			KILL_BONUS,
+			LOTTERY,
+			DEMOLITION_ARCHERY,
+			EXPLOSIVE_ARROWS
 	};
 
 	private final String key;

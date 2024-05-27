@@ -3,6 +3,7 @@ package com.gmail.val59000mc.commands;
 import com.gmail.val59000mc.UhcCore;
 import com.gmail.val59000mc.game.GameManager;
 import com.gmail.val59000mc.game.GameState;
+import com.gmail.val59000mc.threads.ArenaTimerThread;
 import com.gmail.val59000mc.utils.ArenaWorld;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -88,6 +89,7 @@ public class ArenaCommandExecutor implements CommandExecutor {
 
 			gameManager.setArenaIsCleaning(false);
 			gameManager.getArenaTimerThread().stop();
+			gameManager.setArenaTimerThread(null);
 
 
 			return true;
@@ -106,6 +108,7 @@ public class ArenaCommandExecutor implements CommandExecutor {
 			Bukkit.broadcastMessage(ChatColor.GOLD  + "[Arena]" + ChatColor.YELLOW + " OPEN");
 
 			//start thread timer
+			gameManager.setArenaTimerThread(new ArenaTimerThread());
 			gameManager.getArenaTimerThread().start();
 
 			return true;

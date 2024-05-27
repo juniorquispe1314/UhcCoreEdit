@@ -411,5 +411,35 @@
 		"description": [
 			"You can craft enchanted golden apples (4 Blocks of gold, 4 gold ingots and 1 apple)."
 		]
+	},
+	"kill_effect": {
+		"name": "Kill Effect",
+		"description": [
+			"You will receive a random potion effect upon killing a player."
+		]
+	},
+	"blood_brothers": {
+		"name": "Blood Brothers",
+		"description": [
+			"Your team and you will receive a random potion effect upon killing a player."
+		]
+	},
+	"lottery": {
+		"name": "Lottery",
+		"description": [
+			"Upon killing a player, you will receive 64 units of a random material (gold, diamond, emerald or iron)."
+		]
+	},
+	"demolition_archery": {
+		"name": "Demolition Archery",
+		"description": [
+			"Arrows break blocks."
+		]
+	},
+	"explosive_arrows": {
+		"name": "Explosive Arrows",
+		"description": [
+			"Arrows will create an explosion."
+		]
 	}
 }
