@@ -5,6 +5,7 @@ import com.gmail.val59000mc.players.PlayerManager;
 import com.gmail.val59000mc.players.PlayerState;
 import com.gmail.val59000mc.players.UhcPlayer;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -48,10 +49,12 @@ public class ClearItemCommandExecutor implements CommandExecutor {
 				//replace item
 				isn = new ItemStack(is.getType(), 1,(short) ((Damageable) im).getDamage());
 				player.getInventory().setItemInMainHand(isn);
+				player.playSound(player.getLocation(),Sound.BLOCK_GRINDSTONE_USE,1,1);
 				return true;
 			}else if (is.getType().equals(Material.ENCHANTED_BOOK)){
 				isn = new ItemStack(Material.BOOK);
 				player.getInventory().setItemInMainHand(isn);
+				player.playSound(player.getLocation(),Sound.BLOCK_GRINDSTONE_USE,1,1);
 				return true;
 			}
 		}

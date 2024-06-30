@@ -23,7 +23,7 @@ public class GappleRouletteListener extends ScenarioListener {
 		if(ev.getItem().getType().equals(Material.GOLDEN_APPLE)){
 
 			Player player = ev.getPlayer();
-			int rand = RandomUtils.randomInteger(0,29);
+			int rand = RandomUtils.randomInteger(0,potsList.size() - 1);
 
 			player.addPotionEffect(potsList.get(rand));
 

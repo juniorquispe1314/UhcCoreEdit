@@ -66,7 +66,7 @@ public class RandomTeamCommandExecutor implements CommandExecutor {
 				randomizeTeams(playersList, randomTeamSize);
 
 				String commandName = ChatColor.AQUA + "[Random Teams]";
-				getGameManager().broadcastMessage(commandName +ChatColor.DARK_AQUA + " ALL TEAMS WERE RANDOMIZED");
+				getGameManager().broadcastMessage("["+sender.getName()+"] " + commandName +ChatColor.DARK_AQUA + " ALL TEAMS WERE RANDOMIZED");
 				getGameManager().getPlayerManager().playSoundToAll(Sound.BLOCK_STONE_PRESSURE_PLATE_CLICK_ON, 1,1);
 
 			}catch (NumberFormatException noNumber){

@@ -37,6 +37,7 @@ public class ForceTeamCommandExecutor implements CommandExecutor {
 			playerLeader.getTeam().getMembers().add(playerNew);
 			playerNew.setTeam(playerLeader.getTeam());
 			gameManager.getScoreboardManager().updatePlayerOnTab(playerNew);
+			gameManager.getScoreboardManager().updateTeamOnTab(playerNew.getTeam());
 			getGameManager().broadcastMessage(senderName+ ChatColor.AQUA + playerNew.getName().toString() + " has been assigned to " + playerLeader.getName().toString() + "'s team.");
 		} catch (UhcPlayerDoesNotExistException ex) {
 			ex.printStackTrace();

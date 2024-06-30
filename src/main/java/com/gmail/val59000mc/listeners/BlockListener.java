@@ -40,6 +40,14 @@ public class BlockListener implements Listener{
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event){
 
+		if(event.getPlayer().getWorld().getName().equals("world") &&
+			event.getPlayer().getGameMode() == GameMode.SURVIVAL && !event.getPlayer().isOp()){
+			event.getPlayer().sendMessage(ChatColor.RED + "You can not break lobby.");
+			event.getPlayer().setGameMode(GameMode.ADVENTURE);
+			event.setCancelled(true);
+			return;
+		}
+
 		if(event.getPlayer().getWorld().getName().equals(ArenaWorld.NAME_WORLD_ARENA)){
 
 			if(event.getPlayer().getGameMode() == GameMode.CREATIVE){
@@ -60,6 +68,15 @@ public class BlockListener implements Listener{
 
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent event){
+
+		if(event.getPlayer().getWorld().getName().equals("world") &&
+			event.getPlayer().getGameMode() == GameMode.SURVIVAL && !event.getPlayer().isOp()){
+			event.getPlayer().sendMessage(ChatColor.RED + "You can not place in lobby.");
+			event.getPlayer().setGameMode(GameMode.ADVENTURE);
+			event.setCancelled(true);
+			return;
+		}
+
 		handleMaxBuildingHeight(event);
 		handleFrozenPlayers(event);
 	}
